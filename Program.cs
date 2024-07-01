@@ -9,9 +9,9 @@ namespace ANapredno
 
         static void Main(string[] args)
         {
-            Zadatak1();
+            //Zadatak1();
 
-            Zadatak2();
+            //Zadatak2();
 
             Zadatak3();
         }

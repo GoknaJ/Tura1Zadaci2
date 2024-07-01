@@ -7,8 +7,6 @@ namespace ANapredno
     {
         public delegate void DelegatRecenica(string recenica);
 
-
-
         static void Main(string[] args)
         {
             Zadatak1();

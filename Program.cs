@@ -45,16 +45,14 @@ namespace ANapredno
                 Console.WriteLine(broj);
             }
 
-            // Create an array of strings
             string[] rijeci = { "pozdrav", "bok", "dobar dan", "dobro jutro", "dobra večer", "laku noć", "ciao", "hello" };
 
-            // Use a lambda expression to find all strings that contain the substring "o"
-            string[] wordsWithO = Array.FindAll(rijeci, s => s.Contains("a"));
+            string[] rijecia = Array.FindAll(rijeci, s => s.Contains("a"));
 
             Console.WriteLine("\nRiječi s 'a':");
-            foreach (string word in wordsWithO)
+            foreach (string rijec in rijecia)
             {
-                Console.WriteLine(word);
+                Console.WriteLine(rijec);
             }
 
             Console.ReadKey();

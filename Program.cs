@@ -9,10 +9,16 @@ namespace ANapredno
 
         static void Main(string[] args)
         {
+            //Napisati program koji koristi delegat i višestruke metode (x3) istog potpisa, tako da kombinira korištenje tih metoda
+            //(naznačavanje prvo jedne metode, pa druge pa multicast)
             Zadatak1();
 
+            //Napisat iprogram za pretplaćivanje na događaje (najmanje 2) klase po izboru te pozivanje događa ugnježdene klase (dakle, property je objekt
+            //tipa nested klase) od strane pozivne klase (Program.cs) ->Primjer promjena stanja objekta, npr. Osoba i Racun
             Zadatak2();
 
+            //Napisati program za semafor (to će biti klasa) koja sadrži događaj za paljenje svjetala te pretplatuna taj događaj iz pozivajuće klase (Program.cs).
+            //Program treba koristiti nekoliko klasa s događajima te preplitanje pretplata na taj isti događaj (istovremeno paljenje i gašenje semafora na raskršću).
             Zadatak3();
         }
 

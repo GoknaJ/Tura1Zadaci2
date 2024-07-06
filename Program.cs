@@ -19,13 +19,13 @@ namespace ANapredno
         static void Main(string[] args)
         {
             //Učiniti program robustnijim s obzirom na operaciju dijeljena s nulom
-            //Zadatak1();
+            Zadatak1();
 
             //Reproducirati jednu grešku koju treba razriješiti sa hvatanjem bar 3 različita tipa iznimka (npr. otvaranje datoteke, inicijalizacija tipova i sl.)
             Zadatak2();
 
             //Napisati klasu koja hvata sve poznate (i nepoznate) iznimke te baca svoji vlastiti tip iznimke
-            //Zadatak3();
+            Zadatak3();
         }
 
         private static void Zadatak1()

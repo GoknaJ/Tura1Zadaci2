@@ -19,13 +19,13 @@ namespace ANapredno
         static void Main(string[] args)
         {
             //Učiniti program robustnijim s obzirom na operaciju dijeljena s nulom
-            Zadatak1();
+            //Zadatak1();
 
             //Reproducirati jednu grešku koju treba razriješiti sa hvatanjem bar 3 različita tipa iznimka (npr. otvaranje datoteke, inicijalizacija tipova i sl.)
-            //Zadatak2();
+            Zadatak2();
 
             //Napisati klasu koja hvata sve poznate (i nepoznate) iznimke te baca svoji vlastiti tip iznimke
-            Zadatak3();
+            //Zadatak3();
         }
 
         private static void Zadatak1()
@@ -48,34 +48,39 @@ namespace ANapredno
 
         private static void Zadatak2()
         {
-            List<string> lista = new List<string>
-                {
-                    "Pero",
-                    "Iva",
-                    "Marko"
-                };
-
             try
             {
-                string nepostojecaDatoteka = "ne_postoji.txt";
-                File.OpenRead(nepostojecaDatoteka);
-
-                Console.WriteLine(lista[3]);
-
-                int broj = 0;
-                int rezultat = 10 / broj;
+                using (var fileStream = new FileStream("NepostojeciTekst.txt", FileMode.Open))
+                {
+                    // Kod...
+                }
             }
             catch (FileNotFoundException ex)
             {
-                Console.WriteLine("Datoteka nije pronađena: " + ex.Message);
+                Console.WriteLine($"Greška pri otvaranju datoteke: {ex.Message}");
             }
-            catch (ArgumentException ex)
+
+            Console.ReadKey();
+
+            try
             {
-                Console.WriteLine("Greška: " + ex.Message);
+                string ime = null;
+                int duzinaImena = ime.Length;
+            }
+            catch (NullReferenceException ex)
+            {
+                Console.WriteLine($"\nGreška pri inicijalizaciji tipa: {ex.Message}");
+            }
+
+            Console.ReadKey();
+
+            try
+            {
+                throw new Exception("Ovo je opća iznimka.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Greška aritmetičke operacije: " + ex.Message);
+                Console.WriteLine($"\nOpća iznimka: {ex.Message}");
             }
 
             Console.ReadKey();

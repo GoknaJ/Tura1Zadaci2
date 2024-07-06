@@ -1,45 +1,105 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading;
+using System.Linq;
+using Tura1Zadaci2;
 
 namespace ANapredno
 {
-    class MojaIznimka : Exception
+    public static class BankovniRacunEkstenzija
     {
-        public MojaIznimka(string poruka) : base(poruka)
+        public static void ProvjeraStanja(this double stanje)
         {
-            // kod...
+            if (stanje < 0)
+            {
+                throw new InvalidOperationException("Stanje ne može biti manje od 0!");
+            }
+            else if (stanje == 0)
+            {
+                Console.WriteLine("Upozorenje: stanje računa je 0.");
+            }
+            else if (stanje > 0)
+            {
+                Console.WriteLine("Stanje uredu.");
+            }
         }
+
+        public static bool TryXXXProvjeraStanja(this double stanje)
+        {
+            if (stanje < 0)
+            {
+                return false;
+            }
+            else if (stanje == 0)
+            {
+                Console.WriteLine("Upozorenje: stanje računa je 0.");
+            }
+            return true;
+        }
+
     }
 
     internal class Program
     {
+        public delegate void AnonimniDelegat(int brojevi);
 
         static void Main(string[] args)
         {
-            //Učiniti program robustnijim s obzirom na operaciju dijeljena s nulom
+            //Napisati program koji kreira anonimni tip sastavljen od anonimnih tipova. Ispisati rezultat.
             Zadatak1();
 
-            //Reproducirati jednu grešku koju treba razriješiti sa hvatanjem bar 3 različita tipa iznimka (npr. otvaranje datoteke, inicijalizacija tipova i sl.)
-            //Zadatak2();
+            //Navesti u programu anonimni tip koji gradi listu anonimnih tipova i pretražuje po jednom od kriterija (predikati ili funkcije)
+            Zadatak2();
 
-            //Napisati klasu koja hvata sve poznate (i nepoznate) iznimke te baca svoji vlastiti tip iznimke
+            //Implementirati delegat koji definira anonimnu metodu za ispis brojeva i koja koristi lokalnu varijablu iz pozivne metode.
             Zadatak3();
+
+            //Izraditi lokalnu metodu koja se poziva u rekurziji za ispis obiteljskog stabla(npr. izvor podataka neka bude lista objekata roditelj-dijete).
+            Zadatak4();
+
+            //Napisati ektenziju tipa double za provjeru stanja u banci - ukoliko je manji od 0 izbaciti exception, ukoliko je jednak 0 ispisati upozorenje.
+            //Dodatno: varijacija metode sa TryXXX  koja izbacuje bool ako je iznos ispod nule.
+            Zadatak5();
+
+            //Kreirati ekstenziju tipa string za brojanje riječi u rečenici - metoda treba vratiti rezultat tipa int.
+            //Kreirati posebnu datoteku za ekstenzije tog tipa po konvenciji(**Extensions.cs).
+            Zadatak6();
         }
 
         private static void Zadatak1()
         {
-            int broj = 10;
-            int nula = 0;
+            var osoba = new
+            {
+                Ime = "Pero",
+                Prezime = "Perić",
+                Adresa = new
+                {
+                    Ulica = "Glavna cesta 2",
+                    Grad = "Zagreb",
+                    Drzava = "Hrvatska"
+                },
+                BrojMobitela = new[]
+                            {
+                    new
+                    {
+                        Vrsta = "Privatni",
+                        Broj = "095/555 555"
+                    },
+                    new
+                    {
+                        Vrsta = "Poslovni",
+                        Broj = "091/111 111"
+                    }
+                },
+            };
 
-            try
+            Console.WriteLine("Ime: " + osoba.Ime);
+            Console.WriteLine("Prezime: " + osoba.Prezime);
+            Console.WriteLine("Adresa:");
+            Console.WriteLine("\tUlica: " + osoba.Adresa.Ulica + "\n\tGrad: " + osoba.Adresa.Grad + "\n\tDržava: " + osoba.Adresa.Drzava);
+            Console.WriteLine("Broja mobitela:");
+            foreach (var brojMob in osoba.BrojMobitela)
             {
-                int rezultat = broj / nula;
-            }
-            catch (DivideByZeroException ex)
-            {
-                Console.WriteLine($"Greška: {ex.Message}");
+                Console.WriteLine("\t" + brojMob.Vrsta + ": " + brojMob.Broj);
             }
 
             Console.ReadKey();
@@ -48,34 +108,36 @@ namespace ANapredno
 
         private static void Zadatak2()
         {
-            List<string> lista = new List<string>
-                {
-                    "Pero",
-                    "Iva",
-                    "Marko"
-                };
+            var osobe = new[]
+                        {
+                new { Ime = "Pero", Dob = 25, Zanimanje = "Dizajner" },
+                new { Ime = "Ana", Dob = 30, Zanimanje = "Dizajner" },
+                new { Ime = "Marko", Dob = 22, Zanimanje = "Student" },
+                new { Ime = "Ivan", Dob = 20, Zanimanje = "Student" },
+                new { Ime = "Ratko", Dob = 40, Zanimanje = "Profesor" }
+            };
 
-            try
-            {
-                string nepostojecaDatoteka = "ne_postoji.txt";
-                File.OpenRead(nepostojecaDatoteka);
+            Console.WriteLine("Ispis svih osoba:");
 
-                Console.WriteLine(lista[3]);
+            foreach (var osoba in osobe)
+            {                
+                Console.WriteLine($"\t{osoba.Ime} ({osoba.Dob}) - {osoba.Zanimanje}");
+            }
 
-                int broj = 0;
-                int rezultat = 10 / broj;
-            }
-            catch (FileNotFoundException ex)
+            var starost = osobe.Where(godine => godine.Dob > 30);
+
+            Console.WriteLine("\nIspis svih osoba starijih od 30:");
+            foreach (var osoba in starost)
             {
-                Console.WriteLine("Datoteka nije pronađena: " + ex.Message);
+                Console.WriteLine($"\t{osoba.Ime} ({osoba.Dob}) - {osoba.Zanimanje}");
             }
-            catch (ArgumentException ex)
+
+            var okupacija = osobe.Where(student => student.Zanimanje == "Student");
+
+            Console.WriteLine("\nIspis svih studenta:");
+            foreach (var osoba in okupacija)
             {
-                Console.WriteLine("Greška: " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Greška aritmetičke operacije: " + ex.Message);
+                Console.WriteLine($"\t{osoba.Ime} ({osoba.Dob}) - {osoba.Zanimanje}");
             }
 
             Console.ReadKey();
@@ -84,23 +146,121 @@ namespace ANapredno
 
         private static void Zadatak3()
         {
+            int broj = 5;
+
+            Console.WriteLine("Delegat s anonimnom metodom ispisa brojeva preko lokalne varijable iz pozivne metode:");
+
+            AnonimniDelegat anonimniDelegat = delegate (int brojevi)
+            {
+                Console.WriteLine($"{brojevi} od {broj}");
+            };
+
+            for (int i = 0; i <= broj; i++)
+            {
+                anonimniDelegat(i);
+            }
+
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        public class Roditelj
+        {
+            public string Ime { get; set; }
+            public List<Roditelj> Dijete { get; set; }
+
+            public Roditelj(string ime)
+            {
+                Ime = ime;
+                Dijete = new List<Roditelj>();
+            }
+        }
+
+        private static void Zadatak4()
+        {
+            Console.WriteLine("Ispis obitelskog staba roditelj - dijete:\n");
+
+            List<Roditelj> obitelj = new List<Roditelj>
+            {
+                new Roditelj("Pero")
+                {                    
+                        Dijete = new List<Roditelj>
+                            {
+                                new Roditelj("Marko"),
+                                new Roditelj("Ana")
+                            }
+                },
+                new Roditelj("Ivana")
+                {
+                    Dijete = new List<Roditelj>
+                    {
+                        new Roditelj("Ena"),
+                        new Roditelj("Igor")
+                    }
+                }
+            };
+
+            IspisiObiteljskoStablo(obitelj, 0);
+
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        private static void IspisiObiteljskoStablo(List<Roditelj> osobe, int dijete)
+        {
+            foreach (var osoba in osobe)
+            {
+                IspisiRazinu(dijete);
+                Console.WriteLine(osoba.Ime);
+
+                if (osoba.Dijete != null && osoba.Dijete.Count > 0)
+                {
+                    IspisiObiteljskoStablo(osoba.Dijete, dijete + 1);
+                }
+            }
+        }
+
+        private static void IspisiRazinu(int razina)
+        {
+            for (int i = 0; i < razina; i++)
+            {
+                Console.Write("  ");
+            }
+        }
+
+        private static void Zadatak5()
+        {
+            Console.WriteLine("Unesi stanje računa: ");
+            double stanje = Convert.ToDouble(Console.ReadLine());
+
+            Console.WriteLine("\nTry Catch provjera.");
+
             try
             {
-                throw new Exception("Ovo je testna iznimka!");
+                Console.WriteLine("Iznos u redu.");
+                stanje.TryXXXProvjeraStanja();
             }
-            catch (Exception ex)
+            catch (InvalidOperationException ex)
             {
-                Console.WriteLine($"Uhvaćena iznimka: {ex.Message}");
-
-                try
-                {
-                    throw new MojaIznimka("Moja vlastita iznimka!");
-                }
-                catch (MojaIznimka mojaEx)
-                {
-                    Console.WriteLine($"Uhvaćena moja iznimka: {mojaEx.Message}");
-                }
+                Console.WriteLine($"Greška: {ex.Message}");
             }
+
+            Console.WriteLine("\nProvjera stanja preko ektenzije.");
+
+            stanje.ProvjeraStanja();
+
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        private static void Zadatak6()
+        {
+            Console.Write("Upiši rečenicu: ");
+            string recenica = Console.ReadLine();
+
+            int brojRijeci = recenica.BrojiRijeci();
+
+            Console.WriteLine($"Rečenica sadrži {brojRijeci} riječi.");
 
             Console.ReadKey();
             Console.Clear();

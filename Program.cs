@@ -21,6 +21,37 @@ namespace ANapredno
             //Program treba koristiti nekoliko klasa s događajima te preplitanje pretplata na taj isti događaj (istovremeno paljenje i gašenje semafora na raskršću).
             Zadatak3();
         }
+        
+        private static void Zadatak1()
+        {
+            DelegatRecenica del = VelikaSlova;
+            del += MalaSlova;
+            del += Duljina;
+
+            Console.WriteLine("Upiši jednu rečenicu:");
+            string recenica = Console.ReadLine();
+            Console.WriteLine("\nUpisali ste: \n" + recenica);
+
+            del(recenica);
+
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        static void VelikaSlova(string recenica)
+        {
+            Console.WriteLine($"\nSve veliko: {recenica.ToUpper()}");
+        }
+
+        static void MalaSlova(string recenica)
+        {
+            Console.WriteLine($"\nSve malo: {recenica.ToLower()}");
+        }
+
+        static void Duljina(string recenica)
+        {
+            Console.WriteLine($"\nBroj znakova: {recenica.Length}");
+        }
 
         class Osoba
         {
@@ -54,44 +85,6 @@ namespace ANapredno
                     StanjePromijenjeno?.Invoke(this, EventArgs.Empty);
                 }
             }
-        }
-
-        public class Semafor
-        {
-            public event Action PaljenjeSvjetla;
-            public event Action GasenjeSvjetla;
-
-            public void Paljenje()
-            {
-                PaljenjeSvjetla?.Invoke();
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("ZELENO");
-                Console.ResetColor();
-            }
-
-            public void Gasenje()
-            {
-                GasenjeSvjetla?.Invoke();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("CRVENO");
-                Console.ResetColor();
-            }
-        }
-
-        private static void Zadatak1()
-        {
-            DelegatRecenica del = VelikaSlova;
-            del += MalaSlova;
-            del += Duljina;
-
-            Console.WriteLine("Upiši jednu rečenicu:");
-            string recenica = Console.ReadLine();
-            Console.WriteLine("\nUpisali ste: \n" + recenica);
-
-            del(recenica);
-
-            Console.ReadKey();
-            Console.Clear();
         }
 
         private static void Zadatak2()
@@ -152,6 +145,28 @@ namespace ANapredno
 
         }
 
+        public class Semafor
+        {
+            public event Action PaljenjeSvjetla;
+            public event Action GasenjeSvjetla;
+
+            public void Paljenje()
+            {
+                PaljenjeSvjetla?.Invoke();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("ZELENO");
+                Console.ResetColor();
+            }
+
+            public void Gasenje()
+            {
+                GasenjeSvjetla?.Invoke();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("CRVENO");
+                Console.ResetColor();
+            }
+        }
+
         private static void Zadatak3()
         {
             //Semofor 1 i 2 su na pravcu a, a semafor 3 i 4 su na pravcu b!
@@ -180,7 +195,7 @@ namespace ANapredno
                 semafor4.Gasenje();
 
                 Console.WriteLine("\n");
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
 
                 semafor1.Gasenje();
                 semafor2.Gasenje();
@@ -188,27 +203,12 @@ namespace ANapredno
                 semafor4.Paljenje();
 
                 Console.WriteLine("\n");
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
             }
 
             Console.WriteLine("Kraj.");
 
             Console.ReadKey();
-        }
-
-        static void VelikaSlova(string recenica)
-        {
-            Console.WriteLine($"\nSve veliko: {recenica.ToUpper()}");
-        }
-
-        static void MalaSlova(string recenica)
-        {
-            Console.WriteLine($"\nSve malo: {recenica.ToLower()}");
-        }
-
-        static void Duljina(string recenica)
-        {
-            Console.WriteLine($"\nBroj znakova: {recenica.Length}");
         }
 
     }

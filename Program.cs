@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ANapredno
 {
@@ -9,35 +10,23 @@ namespace ANapredno
 
         static void Main(string[] args)
         {
+            //Poigrati se sa pozivnim metodama nad nizovima teksta i brojeva na način da se koriste parametri u vidu delegata.
+            //Primjeri: int.Select(), string.FindAll().
             Zadatak1();
 
+            //Kreirati objekt tipa List<T>, gdje je T neka klasa osobe koja ima svojsta po kojim se može pretraživati.
+            //Potrebno je pretražiti po jednom kriteriju te sortirati podatke po svim svojstvima.
             Zadatak2();
 
+            //Napraviti jednu akciju (Action) i funkciju (Func) te ih pozvati iz pozivne klase.
             Zadatak3();
-        }
-
-        public class Osoba
-        {
-            public string Ime { get; set; }
-            public string Prezime { get; set; }
-        }
-
-        public static void Akcija()
-        {
-            Console.WriteLine("Pozvana je akcija za bojanje teksta!");
-            Console.ForegroundColor = ConsoleColor.Green;
-        }
-
-        public static bool Funkcija(int broj)
-        {
-            return broj % 2 == 0;
         }
 
         private static void Zadatak1()
         {
             int[] brojevi = { 1, 2, 3, 4, 5 };
 
-            int[] brojeviNa2 = Array.ConvertAll<int, int>(brojevi, x => x * x);
+            var brojeviNa2 = brojevi.Select(x => x * x);
 
             Console.WriteLine("Brojevi na kvadrat:");
             foreach (int broj in brojeviNa2)
@@ -47,16 +36,21 @@ namespace ANapredno
 
             string[] rijeci = { "pozdrav", "bok", "dobar dan", "dobro jutro", "dobra večer", "laku noć", "ciao", "hello" };
 
-            string[] rijecia = Array.FindAll(rijeci, s => s.Contains("a"));
+            string[] rijeciSaa = Array.FindAll(rijeci, s => s.Contains("a"));
 
             Console.WriteLine("\nRiječi s 'a':");
-            foreach (string rijec in rijecia)
+            foreach (string rijec in rijeciSaa)
             {
                 Console.WriteLine(rijec);
             }
 
             Console.ReadKey();
             Console.Clear();
+        }
+        public class Osoba
+        {
+            public string Ime { get; set; }
+            public string Prezime { get; set; }
         }
 
         private static void Zadatak2()
@@ -116,6 +110,17 @@ namespace ANapredno
 
             Console.ResetColor();
             Console.ReadKey();
+        }
+
+        public static void Akcija()
+        {
+            Console.WriteLine("Pozvana je akcija za bojanje teksta!");
+            Console.ForegroundColor = ConsoleColor.Green;
+        }
+
+        public static bool Funkcija(int broj)
+        {
+            return broj % 2 == 0;
         }
     }
 }

@@ -19,6 +19,11 @@ namespace ANapredno
 
             //Zadatak4();
 
+            Zadatak5();
+        }
+
+        private static void Zadatak5()
+        {
             Dictionary<string, int> rjecnik = new Dictionary<string, int>();
 
             rjecnik["Pero"] = 3;

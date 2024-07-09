@@ -24,15 +24,16 @@ namespace ANapredno
 
         private static void Zadatak5()
         {
-            Dictionary<string, int> rjecnik = new Dictionary<string, int>();
+            Dictionary<string, int> rijecnik = new Dictionary<string, int>();
 
-            rjecnik["Pero"] = 3;
-            rjecnik["Iva"] = 5;
-            rjecnik["Marko"] = 4;
-            rjecnik["Ivan"] = 1;
-            rjecnik["Maja"] = 2;
+            rijecnik.Add("Pero" ,1);
+            rijecnik.Add("Marko", 2);
+            rijecnik.Add("Iva", 3);
+            rijecnik.Add("Lana", 4);
+            rijecnik.Add("Miro", 5);
+            rijecnik.Add("Ivo", 6);
 
-            foreach (var osoba in rjecnik)
+            foreach (var osoba in rijecnik)
             {
                 Console.WriteLine($"Ključ: {osoba.Key}, Vrijednost: {osoba.Value}");
             }

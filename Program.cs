@@ -35,7 +35,7 @@ namespace ANapredno
 
             foreach (var osoba in rijecnik)
             {
-                Console.WriteLine($"Ključ: {osoba.Key}, Vrijednost: {osoba.Value}");
+                Console.WriteLine($"Osoba: {osoba.Key}, Ključ: {osoba.Value}");
             }
 
             Console.ReadKey();
